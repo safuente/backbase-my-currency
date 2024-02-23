@@ -186,3 +186,13 @@ test:
 # Create test superuser (only for testing)
 superuseruser:
 	$(DOCKER_COMPOSE) run --rm app python manage.py shell -c "from django.contrib.auth import get_user_model; user = get_user_model().objects.create_superuser('admin@admin.com', 'supersegura')"
+
+# Insert mock data
+mock:
+	$(DOCKER_COMPOSE) run --rm app sh -c "python manage.py insert_mock_data"
+
+make-migrations:
+	$(DOCKER_COMPOSE) run --rm app sh -c "python manage.py makemigrations core"
+
+migrate:
+	$(DOCKER_COMPOSE) run --rm app sh -c "python manage.py migrate"
