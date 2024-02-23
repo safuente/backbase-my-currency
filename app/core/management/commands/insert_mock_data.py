@@ -1,6 +1,4 @@
 import csv
-import os
-import argparse
 
 from django.core.management.base import BaseCommand
 from core.models import Currency, CurrencyExchangeRate
@@ -15,7 +13,6 @@ class Command(BaseCommand):
             dest="input_path", help="Input path to load exchanges rates", type=str, default='data/')
 
     def _insert_data(self, file_path, model):
-        # currency_csv = csv.reader(currency_file)
         self.stdout.write('Inserting csv data in db ...')
         with open(file_path) as f:
             csv_reader = csv.DictReader(f, delimiter=',')
@@ -42,7 +39,6 @@ class Command(BaseCommand):
         Currency.objects.all().delete()
         CurrencyExchangeRate.objects.all().delete()
 
-
     def handle(self, *args, **options):
         input_path = options.get('input_path')
         currency_file = f"{input_path}/mock_currency.csv"
@@ -50,10 +46,3 @@ class Command(BaseCommand):
         self._clean_data()
         self._insert_data(currency_file, Currency)
         self._insert_data(rates_file, CurrencyExchangeRate)
-
-
-
-
-
-
-
